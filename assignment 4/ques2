@@ -1,0 +1,82 @@
+#include <iostream>
+using namespace std;
+
+#define SIZE 100
+
+class CQueue {
+    int arr[SIZE];
+    int front, rear;
+
+public:
+    CQueue() {
+        front = -1;
+        rear = -1;
+    }
+
+    bool isEmpty() {
+        return front == -1;
+    }
+
+    bool isFull() {
+        return (rear + 1) % SIZE == front;
+    }
+
+    void enqueue(int x) {
+        if (isFull())
+            cout << "Full\n";
+        else {
+            if (front == -1) front = 0;
+            rear = (rear + 1) % SIZE;
+            arr[rear] = x;
+        }
+    }
+
+    void dequeue() {
+        if (isEmpty())
+            cout << "Empty\n";
+        else if (front == rear)
+            front = rear = -1;
+        else
+            front = (front + 1) % SIZE;
+    }
+
+    int peek() {
+        if (isEmpty()) return -1;
+        return arr[front];
+    }
+
+    void display() {
+        if (isEmpty())
+            cout << "Empty\n";
+        else {
+            int i = front;
+            while (true) {
+                cout << arr[i] << " ";
+                if (i == rear) break;
+                i = (i + 1) % SIZE;
+            }
+            cout << endl;
+        }
+    }
+};
+
+int main() {
+    CQueue q;
+    int ch, val;
+
+    while (true) {
+        cout << "\n1 Enqueue\n2 Dequeue\n3 isEmpty\n4 isFull\n5 Display\n6 Peek\n7 Exit\n";
+        cin >> ch;
+
+        if (ch == 1) {
+            cin >> val;
+            q.enqueue(val);
+        }
+        else if (ch == 2) q.dequeue();
+        else if (ch == 3) cout << (q.isEmpty() ? "Empty\n" : "Not Empty\n");
+        else if (ch == 4) cout << (q.isFull() ? "Full\n" : "Not Full\n");
+        else if (ch == 5) q.display();
+        else if (ch == 6) cout << q.peek() << endl;
+        else if (ch == 7) break;
+    }
+}
